@@ -15,11 +15,11 @@ import { Label } from '@radix-ui/react-label';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: route('admin.dashboard'),
     },
     {
         title: 'Registrar Paciente',
-        href: 'patients/create',
+        href: route('admin.patients.create'),
     },
 ];
 
@@ -39,7 +39,7 @@ interface RegisterForm {
     guardian_phone: string;
     guardian_relationship: string;
     email: string;
-    photo: null;
+    photo: File | null;
 }
 
 export default function Create() {
@@ -64,16 +64,16 @@ export default function Create() {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        // post(route('register'), {
-        //     onFinish: () => reset('password', 'password_confirmation'),
-        // });
+        post(route('admin.patients.store'), {
+            // onFinish: () => reset('password', 'password_confirmation'),
+        });
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Registrar Paciente" />
             <div className="p-10">
-                <form className="col-auto flex gap-6" onSubmit={submit}>
+                <form className="col-auto flex gap-6" onSubmit={submit} noValidate>
                     <div className="grid gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="name">Name:</Label>
@@ -216,7 +216,7 @@ export default function Create() {
                             <Label htmlFor="birth_date">Fecha de nacimiento:</Label>
                             <Input
                                 id="birth_date"
-                                type="text"
+                                type="date"
                                 required
                                 autoFocus
                                 tabIndex={1}
@@ -319,13 +319,13 @@ export default function Create() {
                             <Label htmlFor="photo">Relación Tutor:</Label>
                             <Input
                                 id="photo"
-                                type="text"
+                                type="file"
                                 required
                                 autoFocus
                                 tabIndex={1}
                                 autoComplete="photo"
                                 // value={data.photo}
-                                onChange={(e) => setData('photo', e.target.files[0])}
+                                onChange={(e) => setData('photo', e.target.files?.[0] || null)}
                                 disabled={processing}
                                 placeholder="Albañil"
                             />

@@ -10,12 +10,12 @@ import AppLogo from './app-logo';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        url: 'dashboard',
+        url: route('admin.dashboard'),
         icon: LayoutGrid,
     },
     {
         title: 'Registrar Paciente',
-        url: 'patient-create',
+        url: route('admin.patients.create'),
         icon: LayoutGrid,
     },
 ];
