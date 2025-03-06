@@ -40,6 +40,7 @@ interface RegisterForm {
     guardian_relationship: string;
     email: string;
     photo: File | null;
+    [key: string]: any; // ← Esto permite acceso dinámico
 }
 
 export default function Create() {

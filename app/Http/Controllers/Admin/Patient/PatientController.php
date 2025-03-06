@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Patient;
 
+use Exception;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Patient\StorePatientRequest;
-use Exception;
 
 class PatientController extends Controller
 {
@@ -36,6 +37,7 @@ class PatientController extends Controller
     public function store(StorePatientRequest $request)
     {
         //Crear nuevo Paciente
+        DB::beginTransaction();
         try {
             // dd(User::create($request->validated()));
             $user = User::create($request->validated());
@@ -47,13 +49,15 @@ class PatientController extends Controller
             if ($request->hasFile('photo')) {
                 $this->handlePatientPhoto($request, $patient);
             }
-
+            DB::commit();
             return to_route('admin.patients.create')->with('success', 'Paciente creado exitosamente');
         } catch (Exception $e) {
+            DB::rollBack();
             return back()->withErrors('error', 'Error al crear paciente: ' . $e->getMessage());
         }
     }
 
+    //Función para manejar la lógica para las fotos
     private function handlePatientPhoto(Request $request, Patient $patient)
     {
         $photo = $request->file('photo');
@@ -66,31 +70,12 @@ class PatientController extends Controller
         //Guardar imagen con nombre de id y extension
         $imageName = $patient->id . '.' . $safeExtension;
 
-        //Guardar imagen en la carpeta public/img/patient
+        //Guardar imagen en la carpeta storage/app/private/img/patient
         $path = $request->file('photo')->storeAs('img/patient', $imageName);
 
         //Guardar ruta relativa en la BD como img/patient/1.jpg
         $patient->user->photo = str_replace('public/', '', $path);
         $patient->user->save();
-
-        // if ($request->hasfile('photo')) {
-        //     //Forzar extensión segura
-        //     $extension = $request->file('photo')->extension();
-
-        //     //Convertir formato de imagen a jpg cuando no sea jpeg, png o jpg
-        //     $safeExtension = in_array($extension, ['jpeg', 'png', 'jpg']) ? $extension : 'jpg';
-
-        //     //Guardar imagen con nombre de id y extension
-        //     $patientId = $patient->id;
-        //     $imageName = $patientId . '.' . $safeExtension;
-
-        //     //Guardar imagen en la carpeta public/img/patient
-        //     $path = $request->file('photo')->storeAs('public/img/patient', $imageName);
-
-        //     //Guardar ruta relativa en la BD
-        //     $user->photo = str_replace('public/', '', $path);
-        //     $user->save();
-        // }
     }
 
     /**
