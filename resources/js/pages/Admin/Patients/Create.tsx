@@ -14,10 +14,6 @@ import { Label } from '@radix-ui/react-label';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Dashboard',
-        href: route('admin.dashboard'),
-    },
-    {
         title: 'Registrar Paciente',
         href: route('admin.patients.create'),
     },
@@ -69,11 +65,11 @@ export default function Create() {
             // onFinish: () => reset('password', 'password_confirmation'),
         });
     };
-
+    console.log(route().current.name);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Registrar Paciente" />
-            <div className="p-10">
+            <div className="mx-auto max-w-4xl p-10">
                 <form className="col-auto flex gap-6" onSubmit={submit} noValidate>
                     <div className="grid gap-6">
                         <div className="grid gap-2">

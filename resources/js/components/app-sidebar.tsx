@@ -18,6 +18,11 @@ const mainNavItems: NavItem[] = [
         url: route('admin.patients.create'),
         icon: LayoutGrid,
     },
+    {
+        title: 'Listar Pacientes',
+        url: route('admin.patients.index'),
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

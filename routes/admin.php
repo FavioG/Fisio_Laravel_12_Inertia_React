@@ -15,5 +15,5 @@ Route::get('/dashboard', function () {
 
 Route::resource('patients', PatientController::class)
     ->except(['edit', 'show'])
-    ->names('patients');
-    // ->parameter('patients', 'patient');
+    ->names('patients')
+    ->parameter('patients', 'patient');

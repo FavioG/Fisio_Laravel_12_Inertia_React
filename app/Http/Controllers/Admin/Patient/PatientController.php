@@ -19,6 +19,8 @@ class PatientController extends Controller
     public function index()
     {
         //
+        $patients = Patient::with('user')->get();
+        return Inertia::Render('Admin/Patients/Index', compact('patients'));
     }
 
     /**
