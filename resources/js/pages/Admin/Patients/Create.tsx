@@ -65,7 +65,6 @@ export default function Create() {
             // onFinish: () => reset('password', 'password_confirmation'),
         });
     };
-    console.log(route().current.name);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Registrar Paciente" />

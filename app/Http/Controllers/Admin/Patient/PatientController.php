@@ -18,7 +18,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        //
+        //Listar pacientes
         $patients = Patient::with('user')->get();
         return Inertia::Render('Admin/Patients/Index', compact('patients'));
     }
@@ -91,10 +91,11 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    // public function edit(Patient $patient)
+    // {
+    //     //Datos paciente
+    //     $patient->load('user');
+    // }
 
     /**
      * Update the specified resource in storage.
