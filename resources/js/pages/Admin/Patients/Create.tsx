@@ -312,7 +312,7 @@ export default function Create() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="photo">Relación Tutor:</Label>
+                            <Label htmlFor="photo">Foto:</Label>
                             <Input
                                 id="photo"
                                 type="file"
@@ -323,7 +323,7 @@ export default function Create() {
                                 // value={data.photo}
                                 onChange={(e) => setData('photo', e.target.files?.[0] || null)}
                                 disabled={processing}
-                                placeholder="Albañil"
+                                placeholder="Foto"
                             />
                             <InputError message={errors.photo} className="mt-2" />
                         </div>

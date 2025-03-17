@@ -1,9 +1,9 @@
 import { Patient } from '@/types/Admin/Patient/Patient';
 
-import Edit from '@/components/Admin/Patients/FormEdit/EditPatientForm';
 import Modal from '@/components/Common/Modal/Modal';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import EditPatientForm from '../FormEdit/EditPatientForm';
 import GenderBadge from './GenderBadge';
 import PatientPhoto from './PatientPhoto';
 interface TableRowProps {
@@ -17,6 +17,7 @@ export default function TableRow({ patient, onEdit, onDelete }: TableRowProps) {
     const getValidGender = (gender: string): 'male' | 'female' | 'other' => {
         return ['male', 'female', 'other'].includes(gender) ? (gender as 'male' | 'female' | 'other') : 'other';
     };
+
     return (
         <>
             <tr className="transition-colors hover:bg-slate-800/40">
@@ -69,7 +70,7 @@ export default function TableRow({ patient, onEdit, onDelete }: TableRowProps) {
             </tr>
 
             <Modal isOpen={isEditing} onClose={() => setIsEditing(false)} title="Editar Paciente">
-                <Edit patient={patient} onClose={() => setIsEditing(false)}></Edit>
+                <EditPatientForm patient={patient} onClose={() => setIsEditing(false)} />
             </Modal>
         </>
     );

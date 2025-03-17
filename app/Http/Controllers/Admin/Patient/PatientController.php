@@ -10,12 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Patient\StorePatientRequest;
+use App\Http\Requests\Admin\Patient\UpdatePatientRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //Listar pacientes
@@ -23,18 +22,11 @@ class PatientController extends Controller
         return Inertia::Render('Admin/Patients/Index', compact('patients'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //Vista de crear paciente
         return Inertia::render('Admin/Patients/Create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
 
     public function store(StorePatientRequest $request)
     {
@@ -64,13 +56,13 @@ class PatientController extends Controller
     {
         $photo = $request->file('photo');
 
-        $extension = $request->file('photo')->extension();
+        // $extension = $request->file('photo')->extension();
 
         //Convertir formato de imagen a jpg cuando no sea jpeg, png o jpg
-        $safeExtension = in_array($extension, ['jpeg', 'png', 'jpg']) ? $extension : 'jpg';
+        // $safeExtension = in_array($extension, ['jpeg', 'png', 'jpg']) ? $extension : 'jpg';
 
         //Guardar imagen con nombre de id y extension
-        $imageName = $patient->id . '.' . $safeExtension;
+        $imageName = $patient->id . '.' . "png";
 
         //Guardar imagen en la carpeta storage/app/private/img/patient
         $path = $request->file('photo')->storeAs('img/patient', $imageName);
@@ -80,34 +72,55 @@ class PatientController extends Controller
         $patient->user->save();
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit(Patient $patient)
-    // {
-    //     //Datos paciente
-    //     $patient->load('user');
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        //
+
+        DB::beginTransaction();
+        try {
+
+            $patient->user->update($request->validated());
+
+            $patient->update($request->validated());
+            // dd($request->user);
+
+            if ($request->hasFile('photo')) {
+                $this->handlePhotoUpdate($request, $patient);
+            }
+
+            DB::commit();
+            return to_route('admin.patients.index')->with('success', 'Paciente actualizado exitosamente')->with('patient', $patient->fresh());
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors('error', 'Error al actualizar paciente: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function handlePhotoUpdate(Request $request, Patient $patient)
+    {
+        //Actualizar foto de paciente
+        if ($patient->user->photo) {
+            Storage::disk('public')->delete($patient->user->photo);
+        }
+
+        //Guardar la nueva foto
+        $photo = $request->file('photo');
+
+        //Guardar imagen con nombre de id y extension
+        $imageName = $patient->id . '.' . "png";
+
+        //Guardar imagen en la carpeta storage/app/private/img/patient
+        $path = $photo->storeAs('img/patient', $imageName, 'public');
+
+        //Guardar ruta relativa en la BD como img/patient/1.jpg
+        $updateRute = $patient->user->photo = str_replace('public/', '', $path);
+        $patient->user->update(['photo' => $updateRute]);
+    }
+
     public function destroy(string $id)
     {
         //
