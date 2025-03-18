@@ -3,6 +3,7 @@ import { Patient } from '@/types/Admin/Patient/Patient';
 import Modal from '@/components/Common/Modal/Modal';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import DeletePatient from '../FormEdit/DeletePatient';
 import EditPatientForm from '../FormEdit/EditPatientForm';
 import GenderBadge from './GenderBadge';
 import PatientPhoto from './PatientPhoto';
@@ -14,6 +15,7 @@ interface TableRowProps {
 
 export default function TableRow({ patient, onEdit, onDelete }: TableRowProps) {
     const [isEditing, setIsEditing] = useState(false);
+    const [isDeliting, setIsDeliting] = useState(false);
     const getValidGender = (gender: string): 'male' | 'female' | 'other' => {
         return ['male', 'female', 'other'].includes(gender) ? (gender as 'male' | 'female' | 'other') : 'other';
     };
@@ -59,7 +61,7 @@ export default function TableRow({ patient, onEdit, onDelete }: TableRowProps) {
                     ></Link> */}
 
                         <button
-                            onClick={() => onDelete(patient)}
+                            onClick={() => setIsDeliting(true)}
                             className="cursor-pointer rounded-full p-1.5 text-slate-400 transition-colors hover:bg-slate-700/30 hover:text-blue-400"
                             title="Eliminar"
                         >
@@ -71,6 +73,9 @@ export default function TableRow({ patient, onEdit, onDelete }: TableRowProps) {
 
             <Modal isOpen={isEditing} onClose={() => setIsEditing(false)} title="Editar Paciente">
                 <EditPatientForm patient={patient} onClose={() => setIsEditing(false)} />
+            </Modal>
+            <Modal isOpen={isDeliting} onClose={() => setIsDeliting(false)} title="Eliminar">
+                <DeletePatient patient={patient} onClose={() => setIsDeliting(false)} />
             </Modal>
         </>
     );

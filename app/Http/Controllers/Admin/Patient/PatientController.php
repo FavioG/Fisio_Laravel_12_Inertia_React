@@ -86,7 +86,6 @@ class PatientController extends Controller
             $patient->user->update($request->validated());
 
             $patient->update($request->validated());
-            // dd($request->user);
 
             if ($request->hasFile('photo')) {
                 $this->handlePhotoUpdate($request, $patient);
@@ -121,8 +120,20 @@ class PatientController extends Controller
         $patient->user->update(['photo' => $updateRute]);
     }
 
-    public function destroy(string $id)
+    public function destroy(Patient $patient)
     {
         //
+        DB::beginTransaction();
+        try {
+            $patient->delete();
+            $patient->user->delete();
+            if ($patient->user->photo) {
+                Storage::disk('public')->delete($patient->user->photo);
+            }
+            DB::commit();
+        } catch (exception $e) {
+            DB::rollBack();
+            return back()->withErrors('error', 'Error al eliminar paciente: ' . $e->getMessage());
+        }
     }
 }
