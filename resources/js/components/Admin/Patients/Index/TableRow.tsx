@@ -1,6 +1,6 @@
 import { Patient } from '@/types/Admin/Patient/Patient';
 
-import Modal from '@/components/Common/Modal/Modal';
+import Modal from '@/components/Admin/Patients/FormEdit/ModalEditPatient';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import DeletePatient from '../FormEdit/DeletePatient';

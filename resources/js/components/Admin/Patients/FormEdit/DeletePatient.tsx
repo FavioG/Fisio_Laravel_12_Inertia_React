@@ -68,7 +68,6 @@ export default function DeletePatient({ patient, onClose }: DeletePatientPros) {
             onError: (errors) => console.log(errors),
         });
     };
-    console.log(patient);
     return (
         <div className="space-y-6">
             <HeadingSmall title="Delete account" description="Delete your account and all of its resources" />
@@ -79,28 +78,8 @@ export default function DeletePatient({ patient, onClose }: DeletePatientPros) {
                 </div>
 
                 <Dialog>
-                    {/* <DialogTrigger asChild>
-                        <Button variant="destructive">Delete account</Button>
-                    </DialogTrigger> */}
                     <form className="space-y-6" onSubmit={handleSubmit}>
-                        <div className="grid gap-2">
-                            {/* <Label htmlFor="password" className="sr-only">
-                                Password
-                            </Label>
-
-                            <Input
-                                id="password"
-                                type="password"
-                                name="password"
-                                // ref={passwordInput}
-                                // value={data.password}
-                                // onChange={(e) => setData('password', e.target.value)}
-                                placeholder="Password"
-                                autoComplete="current-password"
-                            />
-
-                            <InputError message={errors.password} /> */}
-                        </div>
+                        <div className="grid gap-2"></div>
 
                         <DialogFooter className="gap-2">
                             <DialogClose asChild>
@@ -114,43 +93,6 @@ export default function DeletePatient({ patient, onClose }: DeletePatientPros) {
                             </Button>
                         </DialogFooter>
                     </form>
-                    {/* <DialogContent>
-                        <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
-                        <DialogDescription>
-                            Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password
-                            to confirm you would like to permanently delete your account.
-                        </DialogDescription>
-                        <form className="space-y-6" onSubmit={handleSubmit}>
-                            <div className="grid gap-2">
-                                <Label htmlFor="password" className="sr-only">
-                                    Password
-                                </Label>
-
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    // ref={passwordInput}
-                                    // value={data.password}
-                                    // onChange={(e) => setData('password', e.target.value)}
-                                    placeholder="Password"
-                                    autoComplete="current-password"
-                                />
-
-                                <InputError message={errors.password} />
-                            </div>
-
-                            <DialogFooter className="gap-2">
-                                <DialogClose asChild>
-                                    <Button variant="secondary">Cancel</Button>
-                                </DialogClose>
-
-                                <Button variant="destructive" disabled={processing} asChild>
-                                    <button type="submit">Delete account</button>
-                                </Button>
-                            </DialogFooter>
-                        </form>
-                    </DialogContent> */}
                 </Dialog>
             </div>
         </div>

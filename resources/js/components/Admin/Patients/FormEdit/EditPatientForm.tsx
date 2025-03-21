@@ -3,6 +3,8 @@ import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import PatientPhoto from '../Index/PatientPhoto';
@@ -171,14 +173,15 @@ export default function EditPatientForm({ patient, onClose }: EditPatientForm) {
                 <InputError message={errors.guardian_relationship} />
                 {/* ...otros campos */}
             </div>
-            <div className="mt-6 flex justify-end gap-3">
-                <button type="button" onClick={onClose} className="rounded-md bg-slate-600 px-4 py-2 text-sm text-slate-200 hover:bg-slate-700">
+            <DialogFooter>
+                <Button variant="secondary" onClick={onClose} type="button">
                     Cancelar
-                </button>
-                <button type="submit" disabled={processing} className="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700">
-                    Guardar cambios
-                </button>
-            </div>
+                </Button>
+
+                <Button disabled={processing} asChild>
+                    <button type="submit">Guardar Cambios</button>
+                </Button>
+            </DialogFooter>
         </form>
     );
 }
