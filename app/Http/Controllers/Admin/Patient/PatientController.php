@@ -44,7 +44,7 @@ class PatientController extends Controller
                 $this->handlePatientPhoto($request, $patient);
             }
             DB::commit();
-            return to_route('admin.patients.create')->with('success', 'Paciente creado exitosamente');
+            return to_route('admin.patients.index')->with('success', 'Paciente creado exitosamente');
         } catch (Exception $e) {
             DB::rollBack();
             return back()->withErrors('error', 'Error al crear paciente: ' . $e->getMessage());
@@ -84,10 +84,15 @@ class PatientController extends Controller
         try {
 
             $patient->user->update($request->validated());
-
+            // unset($patient->user['photo']);
             $patient->update($request->validated());
+            // dd(Storage::exists('public/storage/img/patient/1.png'));
+            // if (Storage::disk('public')->exists($patient->user->photo)) {
+            //     return;
+            // } 
 
             if ($request->hasFile('photo')) {
+                // dd($request->all());
                 $this->handlePhotoUpdate($request, $patient);
             }
 

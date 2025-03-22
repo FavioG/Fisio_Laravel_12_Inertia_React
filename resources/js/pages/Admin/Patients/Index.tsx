@@ -1,17 +1,16 @@
 // import TableRow from '@/components/Admin/Patients/Index/TableRow';
 // import Table from '@/components/Common/Table/Table-back';
-import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
-import { Patient } from '@/types/Admin/Patient/Patient';
-import { Head } from '@inertiajs/react';
-
 import DeletePatient from '@/components/Admin/Patients/FormEdit/DeletePatient';
 import EditPatientForm from '@/components/Admin/Patients/FormEdit/EditPatientForm';
 import ModalEditPatient from '@/components/Admin/Patients/FormEdit/ModalEditPatient';
 import PatientPhoto from '@/components/Admin/Patients/Index/PatientPhoto';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import AppLayout from '@/layouts/app-layout';
+import { BreadcrumbItem } from '@/types';
+import { Patient } from '@/types/Admin/Patient/Patient';
+import { Head } from '@inertiajs/react';
+import { UserMinus, UserPen } from 'lucide-react';
 import { useState } from 'react';
 interface PatientListProps {
     patients: Patient[];
@@ -65,7 +64,7 @@ export default function Index({ patients, onClose }: PatientListProps) {
                                             setIsEditing(true);
                                         }}
                                     >
-                                        <PencilSquareIcon className="size-6 text-indigo-500" />
+                                        <UserPen className="size-6 text-indigo-500" />
                                     </Button>
                                     <Button
                                         variant="ghost"
@@ -74,7 +73,7 @@ export default function Index({ patients, onClose }: PatientListProps) {
                                             setIsDeleting(true);
                                         }}
                                     >
-                                        <TrashIcon className="size-6 text-red-500" />
+                                        <UserMinus className="size-6 text-red-500" />
                                     </Button>
                                 </TableCell>
                             </TableRow>
