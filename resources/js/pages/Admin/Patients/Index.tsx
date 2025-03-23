@@ -46,7 +46,7 @@ export default function Index({ patients, onClose }: PatientListProps) {
                     </TableHeader>
                     <TableBody>
                         {patients.map((patient) => (
-                            <TableRow>
+                            <TableRow key={patient.id}>
                                 <TableCell className="font-medium">
                                     <PatientPhoto patient={patient} />
                                 </TableCell>

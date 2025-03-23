@@ -82,17 +82,20 @@ class PatientController extends Controller
 
         DB::beginTransaction();
         try {
+            // $userData = $request->validated();
+            // unset($userData['photo']);
 
-            $patient->user->update($request->validated());
-            // unset($patient->user['photo']);
+            $patient->user->update($request->except(['photo']));
+
             $patient->update($request->validated());
-            // dd(Storage::exists('public/storage/img/patient/1.png'));
+            // dd($path = Storage::files('storage/app/public/img/patient'));
+            // dd(Storage::exists('img/patient/1.png'));
+            // dd(Storage::exists($patient->user->photo));
             // if (Storage::disk('public')->exists($patient->user->photo)) {
             //     return;
             // } 
 
             if ($request->hasFile('photo')) {
-                // dd($request->all());
                 $this->handlePhotoUpdate($request, $patient);
             }
 
