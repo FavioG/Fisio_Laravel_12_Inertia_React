@@ -79,21 +79,10 @@ class PatientController extends Controller
 
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
-
         DB::beginTransaction();
         try {
-            // $userData = $request->validated();
-            // unset($userData['photo']);
-
             $patient->user->update($request->except(['photo']));
-
             $patient->update($request->validated());
-            // dd($path = Storage::files('storage/app/public/img/patient'));
-            // dd(Storage::exists('img/patient/1.png'));
-            // dd(Storage::exists($patient->user->photo));
-            // if (Storage::disk('public')->exists($patient->user->photo)) {
-            //     return;
-            // } 
 
             if ($request->hasFile('photo')) {
                 $this->handlePhotoUpdate($request, $patient);

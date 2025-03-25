@@ -2,6 +2,7 @@
 // import Table from '@/components/Common/Table/Table-back';
 import DeletePatient from '@/components/Admin/Patients/FormEdit/DeletePatient';
 import EditPatientForm from '@/components/Admin/Patients/FormEdit/EditPatientForm';
+import ModalDeletePatient from '@/components/Admin/Patients/FormEdit/ModalDeletePatient';
 import ModalEditPatient from '@/components/Admin/Patients/FormEdit/ModalEditPatient';
 import PatientPhoto from '@/components/Admin/Patients/Index/PatientPhoto';
 import { Button } from '@/components/ui/button';
@@ -83,13 +84,13 @@ export default function Index({ patients, onClose }: PatientListProps) {
             </AppLayout>
             {selectedPatient && (
                 <>
-                    <ModalEditPatient isOpen={isEditing} onClose={() => setIsEditing(true)} title="Editar Paciente">
+                    <ModalEditPatient isOpen={isEditing} onClose={() => setIsEditing(false)} title="Editar Paciente">
                         <EditPatientForm patient={selectedPatient} onClose={() => setIsEditing(false)}></EditPatientForm>
                     </ModalEditPatient>
 
-                    <ModalEditPatient isOpen={isDeleting} onClose={() => setIsDeleting(false)} title="Editar Paciente">
+                    <ModalDeletePatient isOpen={isDeleting} onClose={() => setIsDeleting(false)} title="Eliminar Paciente">
                         <DeletePatient patient={selectedPatient} onClose={() => setIsDeleting(false)}></DeletePatient>
-                    </ModalEditPatient>
+                    </ModalDeletePatient>
                 </>
             )}
         </>

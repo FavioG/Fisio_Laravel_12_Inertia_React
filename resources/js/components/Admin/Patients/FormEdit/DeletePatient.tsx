@@ -62,7 +62,6 @@ export default function DeletePatient({ patient, onClose }: DeletePatientPros) {
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        console.log('delete');
         destroy(route('admin.patients.destroy', patient.id), {
             onSuccess: () => onClose(),
             onError: (errors) => console.log(errors),
@@ -76,7 +75,6 @@ export default function DeletePatient({ patient, onClose }: DeletePatientPros) {
                     <p className="font-medium">Warning</p>
                     <p className="text-sm">Please proceed with caution, this cannot be undone.</p>
                 </div>
-
                 <Dialog>
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="grid gap-2"></div>
